@@ -12,6 +12,11 @@ public class InteractableGun : Interactable
     Destroy(gameObject);
   }
 
+  void OnCollisionEnter(Collision collision)
+  {
+    collision.transform.SendMessage("Hit", SendMessageOptions.DontRequireReceiver);
+  }
+
   void Start()
   {
 
