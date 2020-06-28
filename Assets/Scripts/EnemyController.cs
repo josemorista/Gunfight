@@ -8,7 +8,7 @@ public class EnemyController : MonoBehaviour
   // Start is called before the first frame update
   public float lookRadius = 10.0f;
   private bool hasAttacked = false;
-  Transform target;
+  public Transform target;
   NavMeshAgent agent;
 
   void onDrawGizmosSelected()
@@ -18,14 +18,13 @@ public class EnemyController : MonoBehaviour
   }
   void Start()
   {
-    target = PlayerManager.instance.player.transform;
     agent = GetComponent<NavMeshAgent>();
   }
 
   void Hit()
   {
     Debug.Log("Bye life!");
-    Destroy(gameObject, 3);
+    Destroy(gameObject, 0.2f);
   }
   void FaceTarget()
   {
@@ -51,6 +50,7 @@ public class EnemyController : MonoBehaviour
         }
       }
     }
+
 
   }
 }
