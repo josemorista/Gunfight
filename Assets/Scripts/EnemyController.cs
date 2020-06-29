@@ -26,6 +26,7 @@ public class EnemyController : MonoBehaviour
 
   void Hit()
   {
+    agent.ResetPath();
     isAlive = false;
     animator.SetTrigger("Die");
     Debug.Log("Bye life!");
