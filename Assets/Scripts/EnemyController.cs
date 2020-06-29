@@ -7,7 +7,8 @@ public class EnemyController : MonoBehaviour
 {
   // Start is called before the first frame update
   public float lookRadius = 10.0f;
-  private bool hasAttacked = false;
+  private bool hasAttacked = false, isAlive = true;
+  private float timeToAttack = 0.5f, attackTime;
   public Transform target;
   NavMeshAgent agent;
   Animator animator;
@@ -25,8 +26,10 @@ public class EnemyController : MonoBehaviour
 
   void Hit()
   {
+    isAlive = false;
+    animator.SetTrigger("Die");
     Debug.Log("Bye life!");
-    Destroy(gameObject, 0.2f);
+    Destroy(gameObject, 0.5f);
   }
   void FaceTarget()
   {
@@ -38,22 +41,34 @@ public class EnemyController : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
-    float distanceToTarget = Vector3.Distance(target.position, transform.position);
-    if (distanceToTarget <= lookRadius)
+    if (isAlive)
     {
-      agent.SetDestination(target.position);
-      if (distanceToTarget <= agent.stoppingDistance)
+      float distanceToTarget = Vector3.Distance(target.position, transform.position);
+      if (distanceToTarget <= lookRadius)
       {
-        FaceTarget();
-        if (!hasAttacked)
+        agent.SetDestination(target.position);
+        if (distanceToTarget <= agent.stoppingDistance)
         {
-          hasAttacked = true;
-          animator.SetTrigger("Attack");
+          FaceTarget();
+          if (!hasAttacked)
+          {
+            hasAttacked = true;
+            animator.SetTrigger("Attack");
+            attackTime = Time.time + timeToAttack;
+          }
+          else if (Time.time >= attackTime)
+          {
+            target.SendMessage("Die", SendMessageOptions.DontRequireReceiver);
+          }
+        }
+        else
+        {
+          hasAttacked = false;
         }
       }
-    }
 
-    float speed = agent.velocity.magnitude / agent.speed;
-    animator.SetFloat("MovementSpeed", speed, .1f, Time.deltaTime);
+      float speed = agent.velocity.magnitude / agent.speed;
+      animator.SetFloat("MovementSpeed", speed, .2f, Time.deltaTime);
+    }
   }
 }

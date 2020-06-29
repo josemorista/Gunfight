@@ -14,6 +14,11 @@ public class PlayerController : MonoBehaviour
     playerController = GetComponent<CharacterController>();
   }
 
+  void Die()
+  {
+    Debug.Log("Died!");
+  }
+
   // Update is called once per frame
   void Update()
   {
