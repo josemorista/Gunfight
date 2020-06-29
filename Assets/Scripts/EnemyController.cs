@@ -10,6 +10,7 @@ public class EnemyController : MonoBehaviour
   private bool hasAttacked = false;
   public Transform target;
   NavMeshAgent agent;
+  Animator animator;
 
   void onDrawGizmosSelected()
   {
@@ -18,6 +19,7 @@ public class EnemyController : MonoBehaviour
   }
   void Start()
   {
+    animator = GetComponentInChildren<Animator>();
     agent = GetComponent<NavMeshAgent>();
   }
 
@@ -46,11 +48,12 @@ public class EnemyController : MonoBehaviour
         if (!hasAttacked)
         {
           hasAttacked = true;
-          Debug.Log("Attack!");
+          animator.SetTrigger("Attack");
         }
       }
     }
 
-
+    float speed = agent.velocity.magnitude / agent.speed;
+    animator.SetFloat("MovementSpeed", speed, .1f, Time.deltaTime);
   }
 }
