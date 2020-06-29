@@ -64,7 +64,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectile: {fileID: 6905868005472935766, guid: 1807a351b10869344a8dbb171f828e24, type: 3}
-  projectileSpeed: 20
+  projectileSpeed: 30
   timeToThrow: 0.4
 --- !u!1001 &3805684545330735919
 PrefabInstance:
