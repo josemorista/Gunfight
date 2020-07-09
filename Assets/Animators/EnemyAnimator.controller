@@ -279,7 +279,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: DropDead
-  m_Speed: 1
+  m_Speed: 4.5
   m_CycleOffset: 0
   m_Transitions: []
   m_StateMachineBehaviours: []
@@ -291,7 +291,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 716256320322786533, guid: a2fe1555a5e5ba84487328fbd38cc00b, type: 3}
+  m_Motion: {fileID: -7780667726118686024, guid: 6c30291b43cff4a44a25779840048a0a, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

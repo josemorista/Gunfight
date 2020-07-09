@@ -8,7 +8,7 @@ public class EnemyController : MonoBehaviour
   // Start is called before the first frame update
   public float lookRadius = 10.0f;
   private bool hasAttacked = false, isAlive = true;
-  private float timeToAttack = 0.5f, attackTime;
+  private float timeToAttack = 0.5f, attackTime, timeToDisableColision = 0.8f, disableColisionTime;
   public Transform target;
   NavMeshAgent agent;
   Animator animator;
@@ -26,11 +26,14 @@ public class EnemyController : MonoBehaviour
 
   void Hit()
   {
-    agent.ResetPath();
-    isAlive = false;
-    animator.SetTrigger("Die");
-    Debug.Log("Bye life!");
-    Destroy(gameObject, 0.5f);
+    if (isAlive)
+    {
+      agent.ResetPath();
+      isAlive = false;
+      animator.SetTrigger("Die");
+      Debug.Log("Bye life!");
+      disableColisionTime = Time.time + timeToDisableColision;
+    }
   }
   void FaceTarget()
   {
@@ -62,14 +65,17 @@ public class EnemyController : MonoBehaviour
             target.SendMessage("Die", SendMessageOptions.DontRequireReceiver);
           }
         }
-        else
-        {
-          hasAttacked = false;
-        }
       }
 
       float speed = agent.velocity.magnitude / agent.speed;
       animator.SetFloat("MovementSpeed", speed, .2f, Time.deltaTime);
+    }
+    else
+    {
+      if (Time.time >= disableColisionTime)
+      {
+        GetComponent<Rigidbody>().detectCollisions = false;
+      }
     }
   }
 }
