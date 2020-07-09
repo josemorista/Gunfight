@@ -7,8 +7,10 @@ public class EnemyController : MonoBehaviour
 {
   // Start is called before the first frame update
   public float lookRadius = 10.0f;
+
+  AudioSource DieAudioSource;
   private bool hasAttacked = false, isAlive = true;
-  private float timeToAttack = 0.5f, attackTime, timeToDisableColision = 0.8f, disableColisionTime;
+  private float timeToAttack = 0.46f, attackTime, timeToDisableColision = 0.8f, disableColisionTime;
   public Transform target;
   NavMeshAgent agent;
   Animator animator;
@@ -22,6 +24,7 @@ public class EnemyController : MonoBehaviour
   {
     animator = GetComponentInChildren<Animator>();
     agent = GetComponent<NavMeshAgent>();
+    DieAudioSource = GetComponent<AudioSource>();
   }
 
   void Hit()
@@ -31,7 +34,7 @@ public class EnemyController : MonoBehaviour
       agent.ResetPath();
       isAlive = false;
       animator.SetTrigger("Die");
-      Debug.Log("Bye life!");
+      DieAudioSource.Play();
       disableColisionTime = Time.time + timeToDisableColision;
     }
   }
@@ -39,7 +42,7 @@ public class EnemyController : MonoBehaviour
   {
     Vector3 direction = (target.position - transform.position).normalized;
     Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-    transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+    transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10f);
   }
 
   // Update is called once per frame
@@ -64,6 +67,10 @@ public class EnemyController : MonoBehaviour
           {
             target.SendMessage("Die", SendMessageOptions.DontRequireReceiver);
           }
+        }
+        else
+        {
+          hasAttacked = false;
         }
       }
 
